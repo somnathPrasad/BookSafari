@@ -40,7 +40,7 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
         }
         const docPath = `${COLLECTION.BOOKSHELF}/${user.uid}`;
         await firestore.doc(docPath).update({
-            books: RNFirestore.FieldValue.arrayUnion(pressedBook.id)
+            books: RNFirestore.FieldValue.arrayUnion(pressedBook)
         });
     };
 
