@@ -1,9 +1,10 @@
 import { View, Text, Pressable } from "react-native"
 import { useState, Dispatch, SetStateAction } from "react"
 import { Button, TextInput } from "./theme";
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { getMessagesFromFirebaseError } from "../utils";
+import { COLLECTION } from "../constants";
+import { auth, firestore } from "../lib";
 
 interface SignUpProps {
     setShowSignUp: Dispatch<SetStateAction<boolean>>;
@@ -17,13 +18,11 @@ export const SignUp = ({ setShowSignUp, onSignUp }: SignUpProps) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const createProfile = async (user: any) => {
-        const data = {
-            name: name,
-            uid: user.uid,
-        }
+    const createProfile = async (userCred: FirebaseAuthTypes.UserCredential) => {
+        const { user } = userCred;
         try {
-            await firestore().collection('Users').add(data);
+            await firestore.collection(COLLECTION.USERS).doc(user.uid).set({ name });
+            await firestore.collection(COLLECTION.BOOKSHELF).doc(user.uid).set({ books: [] });
         } catch (error) {
             console.log(error)
         }
@@ -33,10 +32,9 @@ export const SignUp = ({ setShowSignUp, onSignUp }: SignUpProps) => {
         if (email && password) {
             setLoading(true);
             try {
-                const response = await auth().createUserWithEmailAndPassword(email, password);
-                console.log(response)
+                const response = await auth.createUserWithEmailAndPassword(email, password);
                 if (response?.user) {
-                    await createProfile(response.user);
+                    await createProfile(response);
                     onSignUp?.();
                     setLoading(false);
                 } else {

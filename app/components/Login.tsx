@@ -1,8 +1,8 @@
 import { View, Text, Pressable } from "react-native"
 import { useState, Dispatch, SetStateAction } from "react"
 import { Button, TextInput } from "./theme";
-import auth from "@react-native-firebase/auth";
 import { getMessagesFromFirebaseError } from "../utils";
+import { auth } from "../lib";
 
 interface LoginProps {
     setShowSignUp: Dispatch<SetStateAction<boolean>>;
@@ -20,8 +20,7 @@ export const Login = ({ setShowSignUp, onLogin }: LoginProps) => {
         if (email && password) {
             setLoading(true);
             try {
-                const response = await auth().signInWithEmailAndPassword(email, password);
-                console.log(response)
+                const response = await auth.signInWithEmailAndPassword(email, password);
                 setLoading(false);
                 if (response?.user) {
                     onLogin?.();

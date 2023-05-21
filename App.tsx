@@ -13,6 +13,7 @@ import {
   Manrope_800ExtraBold,
 } from "@expo-google-fonts/manrope";
 import * as SplashScreen from 'expo-splash-screen';
+import { AuthProvider } from './app/context';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,9 +42,11 @@ export default function App() {
   return (
     <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <TabNavigator />
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer>
+            <TabNavigator />
+          </NavigationContainer>
+        </AuthProvider>
       </QueryClientProvider >
     </GestureHandlerRootView>
   );
