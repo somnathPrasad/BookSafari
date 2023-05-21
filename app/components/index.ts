@@ -1,2 +1,5 @@
 export * from "./TabBar"
 export * from "./BookInfo"
+export * from "./AuthModal"
+export * from "./Login"
+export * from "./SignUp"

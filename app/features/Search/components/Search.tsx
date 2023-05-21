@@ -11,7 +11,7 @@ export const Search = (props: SearchInputProps) => {
     return (
         <View style={{ borderWidth: 0.5 }} className="mt-10 bg-gray-600 border-neutral-400 rounded-xl py-3 pl-3 mx-5 flex-row">
             <Feather name="search" size={24} color="white" />
-            <TextInput onChangeText={props.setSearchTerm} cursorColor={"#fff"} placeholder="Search books directly from Google" placeholderTextColor="#fff" style={styles.searchInput} />
+            <TextInput onChangeText={props.setSearchTerm} cursorColor={"#fff"} placeholder="Search books directly from Google" keyboardType="web-search" placeholderTextColor="#fff" style={styles.searchInput} />
         </View>
     )
 }

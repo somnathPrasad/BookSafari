@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { FontAwesome } from '@expo/vector-icons';
 // import { useDatabase } from "../../../hooks";
 import { BottomSheetButton } from "./BottomSheetButton";
+import { AuthModal } from "../../../components";
+import { set } from "react-native-reanimated";
 
 interface SearchItemBottomSheetBodyProps {
     pressedBook: BookType | null
@@ -15,11 +17,14 @@ interface SearchItemBottomSheetBodyProps {
 
 export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps) => {
     const { pressedBook } = props;
+
+
     if (!pressedBook) return null;
     if (!pressedBook.volumeInfo) return null;
     const book = pressedBook.volumeInfo;
     const id = pressedBook.id;
     const [isBookInBookShelf, setIsBookInBookShelf] = useState<boolean>(false);
+    const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
     // const { addBook, books } = useDatabase();
 
     useEffect(() => {
@@ -41,7 +46,9 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
     }
 
     // const handleBookshelfPress = () => addBook(pressedBook);
-    const handleBookshelfPress = () => {};
+    const handleBookshelfPress = () => {
+        setShowAuthModal(true);
+    };
 
 
     return (
@@ -51,12 +58,13 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
             <View className="pb-5 justify-center mt-1">
 
                 <BottomSheetButton onPress={handleBookshelfPress} disabled={isBookInBookShelf} label="Add this book to your bookshelf" disabledLabel="Book is already in your bookshelf" iconComponent={<MaterialCommunityIcons name="bookshelf" size={30} color="white" />} />
-                
+
                 <BottomSheetButton onPress={handleAmazonPress} label="Buy book on amazon" iconName="amazon" externalLink />
 
                 {book?.previewLink && <BottomSheetButton onPress={handleGooglePress} label="Read book" iconName="google" externalLink />}
 
             </View>
+            <AuthModal visible={showAuthModal} onRequestClose={() => setShowAuthModal(false)} />
 
         </BottomSheetScrollView>
     )
