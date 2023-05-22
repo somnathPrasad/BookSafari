@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "bookSafari",
+    "name": "Book Safari",
     "slug": "bookSafari",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.somnath.booksafari"
     },
     "android": {
       "googleServicesFile": "google-services.json",
@@ -38,6 +39,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "caf3a238-2ccf-487c-8ca2-906bc693af4e"
+      }
+    }
   }
 }
