@@ -9,7 +9,7 @@ interface ButtonProps extends TouchableHighlightProps {
 export const Button = (props: ButtonProps) => {
 
     return (
-        <TouchableHighlight className={props.className} {...props}>
+        <TouchableHighlight className={`rounded-3xl items-center bg-slate-300 ${props.className}`} {...props}>
             <View style={styles.button}>
                 {props.loading ? <ActivityIndicator color={"#000"} /> :
                     <Text className={`px-5 text-xl font-manropeSemiBold ${props.textClassName}`}>{props.title}</Text>}
@@ -21,7 +21,6 @@ export const Button = (props: ButtonProps) => {
 const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
-        backgroundColor: '#DDDDDD',
         padding: 10,
         borderRadius: 24
     },

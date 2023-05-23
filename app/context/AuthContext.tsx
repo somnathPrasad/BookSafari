@@ -8,23 +8,17 @@ export interface AuthContextInterface {
 
 export const AuthContext = createContext<AuthContextInterface>({ user: null, setUser: () => { } });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-    // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+export function AuthProvider({ children, fetchedUser }: { children: React.ReactNode, fetchedUser: FirebaseAuthTypes.User | null }) {
 
-  // Handle user state changes
-  function onAuthStateChanged(user:FirebaseAuthTypes.User | null) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
+    const [user, setUser] = useState<FirebaseAuthTypes.User | null>(fetchedUser);
 
-    useEffect(() => {
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-    }, [])
+    const fetchDisplayName = async () => {
+        
+    }
 
-    if (initializing) return null;
+    if(user?.displayName === null) {
+        
+    }
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>

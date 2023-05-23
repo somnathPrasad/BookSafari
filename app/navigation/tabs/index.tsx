@@ -1,14 +1,16 @@
 import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { RouteProp } from "@react-navigation/native";
 import { HomeScreen } from "../../features/Home/screens";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { SearchScreen } from "../../features/Search/screens";
 import { SettingsScreen } from "../../features/Settings/screens";
+import { ProfileScreen } from "../../features/Profile/screens";
 
 export type TabParamListBase = {
-    Home: undefined;
+    Shelf: undefined;
     Search: undefined;
     Settings: undefined;
+    Profile: undefined;
 }
 
 const Tab = createBottomTabNavigator<TabParamListBase>();
@@ -16,8 +18,9 @@ const Tab = createBottomTabNavigator<TabParamListBase>();
 export const TabNavigator = () => {
     return (
         <Tab.Navigator screenOptions={screenOptions}>
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Shelf" component={HomeScreen} />
             <Tab.Screen name="Search" component={SearchScreen} />
+            <Tab.Screen name="Profile" component={ProfileScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
     )
@@ -29,19 +32,16 @@ const screenOptions: BottomTabNavigationOptions | ((props: {
 }) => BottomTabNavigationOptions) | undefined = ({ route }) => ({
     headerShown: false,
     tabBarIcon: ({ focused, color, size }) => {
-        let iconName: keyof typeof Ionicons.glyphMap | undefined;
+        // let iconName: keyof typeof Ionicons.glyphMap | undefined;
 
-        if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
+        if (route.name === "Shelf") {
+            return <MaterialCommunityIcons name="bookshelf" size={size} color={color} />
         } else if (route.name === 'Search') {
-            iconName = focused ? 'search' : 'ios-search-outline';
+            return <Ionicons name='search' size={size} color={color} />
         } else if (route.name === "Settings") {
-            iconName = focused ? "settings" : "settings-outline";
-        }
-
-        // You can return any component that you like here!
-        if (iconName) {
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Ionicons name="settings-outline" size={size} color={color} />
+        } else if (route.name === "Profile") {
+            return <Feather name="user" size={size} color={color} />
         }
     },
     tabBarActiveTintColor: "white",
@@ -49,6 +49,7 @@ const screenOptions: BottomTabNavigationOptions | ((props: {
     tabBarStyle: {
         backgroundColor: "#000000",
         borderTopWidth: 0,
+        paddingTop:10
     },
-    tabBarShowLabel: false,
+    // tabBarShowLabel: false,
 })

@@ -8,6 +8,7 @@ module.exports = {
         manropeMedium: ["Manrope_500Medium"],
         manropeSemiBold: ["Manrope_600SemiBold"],
         manropeExtraBold: ["Manrope_800ExtraBold"],
+        pacifico: ["Pacifico_400Regular"],
       },
     },
   },

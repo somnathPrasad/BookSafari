@@ -6,8 +6,7 @@ import { BookInfo } from "../../../components/BookInfo";
 import { useState } from "react";
 import { BottomSheetButton } from "./BottomSheetButton";
 import { AuthModal } from "../../../components";
-import { useAuth } from "../../../hooks";
-import { firestore } from "../../../lib";
+import { auth, firestore } from "../../../lib";
 import RNFirestore from "@react-native-firebase/firestore"
 import { COLLECTION } from "../../../constants";
 
@@ -23,7 +22,7 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
     if (!pressedBook.volumeInfo) return null;
     const book = pressedBook.volumeInfo;
     const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
-    const { user } = useAuth();
+    const user = auth.currentUser;
 
     const handleGooglePress = () => {
         if (book?.previewLink) Linking.openURL(book?.previewLink);

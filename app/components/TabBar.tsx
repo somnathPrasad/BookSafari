@@ -1,16 +1,17 @@
 import { View, Text, TouchableOpacity } from "react-native";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 
-export function BottomTabBar({ state, descriptors, navigation }) {
+export function BottomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
-    <View style={{ flexDirection: "row", backgroundColor: "rgba(0,0,0,0.6)" }}>
+    <View style={{ flexDirection: "row", backgroundColor: "rgba(0,0,0,0.6)" }} >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -23,7 +24,8 @@ export function BottomTabBar({ state, descriptors, navigation }) {
 
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({ name: route.name, merge: true });
+            // navigation.navigate({ name: route.name, merge: true });
+            // navigation.navigate()
           }
         };
 
