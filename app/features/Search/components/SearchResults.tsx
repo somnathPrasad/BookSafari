@@ -27,6 +27,7 @@ export const SearchResults = (props: SearchResultsProps) => {
                     data={props.books?.items}
                     keyExtractor={item => item.id}
                     renderItem={({ item }: { item: BookType }) => <RenderSearchItems setPressedBook={setPressedBook} item={item} bottomSheetRef={bottomSheetRef} />}
+                    ItemSeparatorComponent={() => <View style={{height:0.5}} className="bg-gray-700 w-96 self-center" />}
                     contentContainerStyle={{ paddingBottom: 200 }}
                 />
             }

@@ -1,1 +1,1 @@
-export const LinearGradientColors = ["#121c46", "#000"];
+export const LinearGradientColors = ["#a277ed", "#000000"];

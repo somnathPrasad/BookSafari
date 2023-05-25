@@ -10,7 +10,7 @@ interface BookInfoProps {
 export const BookInfo = (props: BookInfoProps) => {
     const { book } = props;
     return (
-        <View className="flex-row pb-5 border-b-slate-700 border-b">
+        <View className="flex-row pb-5">
             {book?.imageLinks?.thumbnail &&
                 <Image resizeMode="cover" source={{ uri: book.imageLinks.thumbnail }} style={{ width: 100, height: 150 }} />}
 
