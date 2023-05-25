@@ -9,6 +9,7 @@ import { AuthModal } from "../../../components";
 import { auth, firestore } from "../../../lib";
 import RNFirestore from "@react-native-firebase/firestore"
 import { COLLECTION } from "../../../constants";
+import Toast from 'react-native-root-toast';
 
 interface SearchItemBottomSheetBodyProps {
     pressedBook: BookType | null
@@ -41,6 +42,7 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
         await firestore.doc(docPath).update({
             books: RNFirestore.FieldValue.arrayUnion(pressedBook)
         });
+        Toast.show("Book added to your bookshelf");
     };
 
 

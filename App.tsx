@@ -15,6 +15,7 @@ import { Pacifico_400Regular } from "@expo-google-fonts/pacifico"
 import * as SplashScreen from 'expo-splash-screen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { AppNavigation, AuthNavigation } from './app/navigation';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,12 +56,14 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          {loggedIn ? <AppNavigation /> : <AuthNavigation />}
-        </NavigationContainer>
-      </QueryClientProvider >
-    </GestureHandlerRootView>
+    <RootSiblingParent>
+      <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <QueryClientProvider client={queryClient}>
+          <NavigationContainer>
+            {loggedIn ? <AppNavigation /> : <AuthNavigation />}
+          </NavigationContainer>
+        </QueryClientProvider >
+      </GestureHandlerRootView>
+    </RootSiblingParent>
   );
 }
