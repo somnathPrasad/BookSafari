@@ -47,7 +47,7 @@ const screenOptions: BottomTabNavigationOptions | ((props: {
     tabBarActiveTintColor: "white",
     tabBarInactiveTintColor: "gray",
     tabBarStyle: {
-        backgroundColor: "#000000",
+        backgroundColor: "#000",
         borderTopWidth: 0,
         paddingTop:10
     },

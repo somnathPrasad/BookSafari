@@ -18,6 +18,7 @@
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "color": "^4.2.3",
     "expo": "~48.0.15",
     "expo-build-properties": "~0.6.0",
     "expo-linear-gradient": "~12.1.2",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/color": "^3.0.3",
     "@types/react": "~18.0.14",
     "tailwindcss": "^3.3.2",
     "typescript": "^4.9.4"
