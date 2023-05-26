@@ -16,6 +16,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { AppNavigation, AuthNavigation } from './app/navigation';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -58,11 +59,13 @@ export default function App() {
   return (
     <RootSiblingParent>
       <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <QueryClientProvider client={queryClient}>
-          <NavigationContainer>
-            {loggedIn ? <AppNavigation /> : <AuthNavigation />}
-          </NavigationContainer>
-        </QueryClientProvider >
+        <BottomSheetModalProvider>
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainer>
+              {loggedIn ? <AppNavigation /> : <AuthNavigation />}
+            </NavigationContainer>
+          </QueryClientProvider >
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </RootSiblingParent>
   );

@@ -8,6 +8,7 @@ interface BottomSheetButtonProps extends TouchableHighlightProps {
     label: string,
     disabledLabel?: string,
     className?: string,
+    variant?: "Danger" | "Primary" | "Secondary"
 }
 
 export const BottomSheetButton = (props: BottomSheetButtonProps) => {
@@ -17,11 +18,11 @@ export const BottomSheetButton = (props: BottomSheetButtonProps) => {
             <View className="flex-row items-center justify-between">
                 <View className="flex-row">
                     {props.iconComponent ? props.iconComponent :
-                        <AntDesign name={props.iconName} size={30} color="white" />}
+                        <AntDesign name={props.iconName} size={30} color={props.variant==="Danger" ? "red" : "white"} />}
 
                     {props.disabled && <Text style={styles.bookTitle} className="ml-2">{props.disabledLabel ?? props.label}</Text>}
                     {!props.disabled &&
-                        <Text style={styles.bookTitle} className="ml-2">{props.label}</Text>}
+                        <Text style={styles.bookTitle} className={`ml-2 text-white ${props.variant === "Danger" && "text-red-500"}`}>{props.label}</Text>}
                 </View>
                 {props.externalLink &&
                     <View style={{ opacity: 0.3 }}>
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     bookTitle: {
         fontFamily: "Manrope_600SemiBold",
         fontSize: 20,
-        color: "#fff",
+        // color: "#fff",
     },
     bookSubtitle: {
         fontFamily: "Manrope_400Regular",

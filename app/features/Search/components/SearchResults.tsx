@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useMemo, useRef, useState } from "react"
 import { BookType } from "../../../lib/types"
 import { ActivityIndicator, FlatList, Pressable, View } from "react-native"
-import { BookInfo } from "../../../components"
-import BottomSheet from '@gorhom/bottom-sheet';
+import { BookInfo, BottomSheetModal } from "../../../components"
+import {BottomSheetModal as BottomSheetModalType} from '@gorhom/bottom-sheet';
 import { SearchItemBottomSheetBody } from "./SearchItemBottomSheetBody"
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
+import { BottomSheetMethods, BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
 
 interface SearchResultsProps {
     isLoading: boolean,
@@ -16,8 +16,8 @@ interface SearchResultsProps {
 }
 
 export const SearchResults = (props: SearchResultsProps) => {
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const snapPoints = useMemo(() => ['90%'], []);
+    const bottomSheetRef = useRef<BottomSheetModalType>(null);
+    const snapPoints = useMemo(() => ['60%'], []);
     const [pressedBook, setPressedBook] = useState<BookType | null>(null);
 
     return (
@@ -31,29 +31,26 @@ export const SearchResults = (props: SearchResultsProps) => {
                     contentContainerStyle={{ paddingBottom: 200 }}
                 />
             }
-            <BottomSheet
+            <BottomSheetModal
                 ref={bottomSheetRef}
-                index={-1}
                 snapPoints={snapPoints}
-                enablePanDownToClose={true}
-                backgroundStyle={{ backgroundColor: "#000" }}
-                handleIndicatorStyle={{ backgroundColor: "#fff", width: 80, height: 5 }}
+                onDismiss={() => setPressedBook(null)}
             >
                 <SearchItemBottomSheetBody pressedBook={pressedBook} />
-            </BottomSheet>
+            </BottomSheetModal>
         </View>
     )
 }
 
 interface RenderSearchItemsProps {
     item: BookType,
-    bottomSheetRef: React.RefObject<BottomSheetMethods>,
+    bottomSheetRef: React.RefObject<BottomSheetModalMethods>,
     setPressedBook: Dispatch<SetStateAction<BookType | null>>
 }
 
 const RenderSearchItems = ({ item, bottomSheetRef, setPressedBook }: RenderSearchItemsProps) => {
 
-    const openSheet = () => bottomSheetRef.current?.expand(); // expands to full height
+    const openSheet = () => bottomSheetRef.current?.present(); // expands to full height
     if (!item?.volumeInfo) {
         return null;
     }

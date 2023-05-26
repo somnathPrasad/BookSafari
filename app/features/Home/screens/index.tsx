@@ -1,15 +1,19 @@
 import { LinearGradient } from "expo-linear-gradient"
-import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native"
+import { View, Text, StyleSheet, ScrollView, StatusBar, Dimensions } from "react-native"
 import { LinearGradientColors } from "../../../constants/colors"
-import { theme } from "../../../style"
-import { BookInfo } from "../../../components"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { BookType } from "../../../lib/types"
 import { auth, firestore } from "../../../lib"
 import { COLLECTION } from "../../../constants"
+import { Book, ManageBookSheetBody } from "../components"
+import { BottomSheetModal } from "../../../components"
+import { BottomSheetModal as BottomSheetModalType } from '@gorhom/bottom-sheet';
 
 export const HomeScreen = () => {
     const [books, setBooks] = useState<BookType[]>([])
+    const bottomSheetRef = useRef<BottomSheetModalType>(null);
+    const snapPoints = useMemo(() => ['60%'], []);
+    const [pressedBook, setPressedBook] = useState<BookType | null>(null);
     const user = auth.currentUser;
 
     useEffect(() => {
@@ -24,20 +28,36 @@ export const HomeScreen = () => {
         return () => subscriber();
     }, [])
 
+    const onBookLongPress = useCallback((book: BookType) => {
+        setPressedBook(book);
+        bottomSheetRef.current?.present();
+    }, [])
+
     return (
-        <LinearGradient colors={LinearGradientColors} style={theme.screenContainer}>
+        <LinearGradient colors={LinearGradientColors} className="flex-1">
             <ScrollView contentContainerStyle={{ paddingTop: StatusBar.currentHeight }} showsVerticalScrollIndicator={false}>
-                <View className="pt-5">
+
+                <View className="pt-5 ml-5">
                     <Text style={styles.text} className="font-manropeExtraBold text-2xl">Your Bookshelf</Text>
                 </View>
+
                 <View className="mt-5">
 
                     {books.length === 0 && <Text style={styles.message}>No books found</Text>}
 
-                    {books.map((book: BookType) => <View key={book.id} className="mt-5"><BookInfo book={book.volumeInfo} /></View>)}
+                    {books.map((book: BookType) =>
+                        <Book
+                            onLongPress={() => onBookLongPress(book)}
+                            book={book.volumeInfo}
+                            key={book.id} className="mt-2"
+                        />)}
 
                 </View>
+
             </ScrollView>
+            <BottomSheetModal ref={bottomSheetRef} snapPoints={snapPoints} onDismiss={() => setPressedBook(null)}>
+                <ManageBookSheetBody book={pressedBook} />
+            </BottomSheetModal>
         </LinearGradient>
     )
 }
