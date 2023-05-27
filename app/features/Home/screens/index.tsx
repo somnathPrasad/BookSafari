@@ -8,8 +8,12 @@ import { Book, ManageBookSheetBody } from "../components"
 import { BottomSheetModal } from "../../../components"
 import { BottomSheetModal as BottomSheetModalType } from '@gorhom/bottom-sheet';
 import { auth, firestore } from "../../../lib"
+import { HomeStackParamList } from "../../../navigation/tabs/HomeStack"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
-export const HomeScreen = () => {
+type Props = NativeStackScreenProps<HomeStackParamList, "Home">
+
+export const HomeScreen = ({ navigation }: Props) => {
     const [books, setBooks] = useState<BookType[]>([])
     const bottomSheetRef = useRef<BottomSheetModalType>(null);
     const snapPoints = useMemo(() => ['60%'], []);
@@ -48,7 +52,8 @@ export const HomeScreen = () => {
                     {books.map((book: BookType) =>
                         <Book
                             onLongPress={() => onBookLongPress(book)}
-                            book={book.volumeInfo}
+                            onPress={() => navigation.navigate("Book", { book })}
+                            book={book}
                             key={book.id} className="mt-2"
                         />)}
 
@@ -72,3 +77,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
     }
 })
+
+export * from "./Book"

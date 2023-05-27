@@ -2,6 +2,7 @@ export type BookType = {
   id: string;
   selfLink?: string;
   volumeInfo?: BookVolumeInfoType;
+  read?: boolean; // added by me
 };
 
 export type BookVolumeInfoType = {
@@ -20,4 +21,5 @@ export type BookVolumeInfoType = {
   previewLink?: string;
   infoLink?: string;
   canonicalVolumeLink?: string;
+  categories: string[];
 };

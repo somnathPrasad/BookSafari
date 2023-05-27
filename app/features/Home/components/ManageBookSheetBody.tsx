@@ -26,11 +26,16 @@ export const ManageBookSheetBody = (props: ManageBookSheetBodyProps) => {
         Linking.openURL(`https://www.amazon.com/s?k=${book?.volumeInfo?.title} book`);
     }
 
+    const markAsCompleted = () => {
+        if(book?.read) return;
+        firebase.markBookAsRead(book);
+    }
+
     return (
         <BottomSheetScrollView contentContainerStyle={styles.containerStyle}>
             <View className="pb-5 justify-center mt-1">
 
-                <Book book={book?.volumeInfo} />
+                <Book book={book} />
 
                 <View className="flex-row gap-3 mt-3">
                     <IconButton onPress={removeBookFromBookshelf} className="bg-zinc-800 border-zinc-900">
@@ -45,10 +50,10 @@ export const ManageBookSheetBody = (props: ManageBookSheetBodyProps) => {
                 </View>
 
                 <View className="mt-3">
-                    <TouchableHighlight>
+                    <TouchableHighlight onPress={markAsCompleted}>
                         <View className="flex-row items-center bg-zinc-800 border-zinc-900 px-3 py-3 rounded-lg">
-                            <MaterialCommunityIcons name="book-check" size={30} color="#4ade80" />
-                            <Text className="font-manropeSemiBold text-green-400 text-xl ml-2">Mark this book as read</Text>
+                            <MaterialCommunityIcons name="book-check" size={24} color="#4ade80" />
+                            <Text className="font-manropeSemiBold text-green-400 text-xl ml-2">Mark as completed</Text>
                         </View>
                     </TouchableHighlight>
                 </View>

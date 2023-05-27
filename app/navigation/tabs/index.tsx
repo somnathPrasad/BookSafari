@@ -5,6 +5,7 @@ import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { SearchScreen } from "../../features/Search/screens";
 import { SettingsScreen } from "../../features/Settings/screens";
 import { ProfileScreen } from "../../features/Profile/screens";
+import { HomeStack } from "./HomeStack";
 
 export type TabParamListBase = {
     Shelf: undefined;
@@ -18,7 +19,7 @@ const Tab = createBottomTabNavigator<TabParamListBase>();
 export const TabNavigator = () => {
     return (
         <Tab.Navigator screenOptions={screenOptions}>
-            <Tab.Screen name="Shelf" component={HomeScreen} />
+            <Tab.Screen name="Shelf" component={HomeStack} />
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />

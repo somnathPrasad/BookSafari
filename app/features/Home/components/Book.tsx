@@ -1,33 +1,40 @@
 import { Image, Text, View, StyleSheet, ViewProps, Dimensions } from "react-native";
-import { BookVolumeInfoType } from "../../../lib/types";
+import { BookType, BookVolumeInfoType } from "../../../lib/types";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { GestureResponderEvent } from "react-native";
+import { Chip } from "../../../components";
 
 interface BookInfoProps extends ViewProps {
-    book?: BookVolumeInfoType | null,
+    book?: BookType | null,
     onLongPress?: (((event: GestureResponderEvent) => void) & (() => void)) | undefined,
+    onPress?: (((event: GestureResponderEvent) => void) & (() => void)) | undefined
 }
 
 const { width } = Dimensions.get("window");
 
 export const Book = (props: BookInfoProps) => {
     const { book } = props;
+    const volumeInfo = book?.volumeInfo;
     return (
-        <TouchableHighlight underlayColor={"transparent"} onLongPress={props.onLongPress}>
+        <TouchableHighlight onPress={props.onPress} underlayColor={"transparent"} onLongPress={props.onLongPress}>
             <View className={`flex-row pb-3 px-5 ${props.className}`}>
-                {book?.imageLinks?.thumbnail &&
-                    <Image resizeMode="cover" source={{ uri: book.imageLinks.thumbnail }} style={{ width: 100, height: 150 }} />}
+                {volumeInfo?.imageLinks?.thumbnail &&
+                    <Image resizeMode="cover" source={{ uri: volumeInfo.imageLinks.thumbnail }} style={{ width: 100, height: 150 }} />}
 
                 <View className="ml-3 items-start flex-wrap">
 
-                    {book?.title && <View className="flex-row justify-between">
-                        <Text style={[styles.bookTitle]}>{book.title}</Text>
+                    {volumeInfo?.title && <View className="flex-row justify-between">
+                        <Text style={[styles.bookTitle]}>{volumeInfo.title}</Text>
                     </View>}
 
-                    {book?.authors && book.authors.length > 0 &&
-                        <Text style={styles.bookAuthors}>Author{book.authors.length > 1 && "s"}: {book.authors?.join(', ')}</Text>}
+                    {volumeInfo?.authors && volumeInfo.authors.length > 0 &&
+                        <Text style={styles.bookAuthors}>Author{volumeInfo.authors.length > 1 && "s"}: {volumeInfo.authors?.join(', ')}</Text>}
 
-                    {!!book?.pageCount && <Text style={styles.bookAuthors}>{book.pageCount} pages</Text>}
+                    {!!volumeInfo?.pageCount && <Text style={styles.bookAuthors}>{volumeInfo.pageCount} pages</Text>}
+
+                    <View className="mt-4">
+                        {book?.read && <Chip label="Completed" />}
+                    </View>
 
                 </View>
             </View>

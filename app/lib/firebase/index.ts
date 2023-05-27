@@ -68,6 +68,25 @@ const firebase = {
       console.log(error);
     }
   },
+  markBookAsRead: async (book: BookType | null) => {
+    if(book === null) return;
+    const path = `${COLLECTION.BOOKSHELF}/${auth.currentUser?.uid}`;
+    try {
+      await firestore.doc(path).update({
+        books: firebaseFirestore.FieldValue.arrayRemove(book),
+      });
+      await firestore.doc(path).update({
+        books: firebaseFirestore.FieldValue.arrayUnion({
+          ...book,
+          read: true,
+        }),
+      });
+      Toast.show("Book marked as read");
+    } catch (error) {
+      console.log(error);
+      Toast.show("Failed to mark book as read");
+    }
+  }
 };
 
 export default firebase;
