@@ -6,10 +6,7 @@ import { BookInfo } from "../../../components/BookInfo";
 import { useState } from "react";
 import { BottomSheetButton } from "./BottomSheetButton";
 import { AuthModal } from "../../../components";
-import { auth, firestore } from "../../../lib";
-import RNFirestore from "@react-native-firebase/firestore"
-import { COLLECTION } from "../../../constants";
-import Toast from 'react-native-root-toast';
+import firebase from "../../../lib/firebase";
 
 interface SearchItemBottomSheetBodyProps {
     pressedBook: BookType | null
@@ -23,7 +20,6 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
     if (!pressedBook.volumeInfo) return null;
     const book = pressedBook.volumeInfo;
     const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
-    const user = auth.currentUser;
 
     const handleGooglePress = () => {
         if (book?.previewLink) Linking.openURL(book?.previewLink);
@@ -34,15 +30,7 @@ export const SearchItemBottomSheetBody = (props: SearchItemBottomSheetBodyProps)
     }
 
     const handleBookshelfPress = async () => {
-        if (!user) {
-            setShowAuthModal(true);
-            return;
-        }
-        const docPath = `${COLLECTION.BOOKSHELF}/${user.uid}`;
-        await firestore.doc(docPath).update({
-            books: RNFirestore.FieldValue.arrayUnion(pressedBook)
-        });
-        Toast.show("Book added to your bookshelf");
+        await firebase.addBookToBookshelf(pressedBook);
     };
 
 

@@ -1,14 +1,11 @@
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { BookType } from "../../../lib/types"
-import { Linking, StyleSheet, View } from "react-native"
+import { Linking, StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { auth, firestore } from "../../../lib";
-import { COLLECTION } from "../../../constants";
-import RNFirestore from "@react-native-firebase/firestore"
-import Toast from 'react-native-root-toast';
 import { Book } from "./Book";
 import { IconButton } from "../../../components";
 import { AntDesign } from '@expo/vector-icons';
+import firebase from "../../../lib/firebase";
 
 interface ManageBookSheetBodyProps {
     book: BookType | null
@@ -16,14 +13,9 @@ interface ManageBookSheetBodyProps {
 
 export const ManageBookSheetBody = (props: ManageBookSheetBodyProps) => {
     const { book } = props;
-    const user = auth.currentUser;
 
     const removeBookFromBookshelf = async () => {
-        const path = `${COLLECTION.BOOKSHELF}/${user?.uid}`;
-        await firestore.doc(path).update({
-            books: RNFirestore.FieldValue.arrayRemove(book)
-        })
-        Toast.show("Book removed from your bookshelf");
+        await firebase.removeBookFromBookshelf(book);
     }
 
     const handleGooglePress = () => {
@@ -37,18 +29,30 @@ export const ManageBookSheetBody = (props: ManageBookSheetBodyProps) => {
     return (
         <BottomSheetScrollView contentContainerStyle={styles.containerStyle}>
             <View className="pb-5 justify-center mt-1">
+
                 <Book book={book?.volumeInfo} />
+
                 <View className="flex-row gap-3 mt-3">
-                    <IconButton onPress={removeBookFromBookshelf} className="border-red-500">
+                    <IconButton onPress={removeBookFromBookshelf} className="bg-zinc-800 border-zinc-900">
                         <MaterialCommunityIcons name="book-remove" size={30} color="red" />
                     </IconButton>
-                    <IconButton onPress={handleAmazonPress}>
+                    <IconButton onPress={handleAmazonPress} className="bg-zinc-800 border-zinc-900">
                         <AntDesign name={"amazon"} size={30} color={"white"} />
                     </IconButton>
-                    <IconButton onPress={handleGooglePress}>
+                    <IconButton onPress={handleGooglePress} className="bg-zinc-800 border-zinc-900">
                         <AntDesign name={"google"} size={30} color={"white"} />
                     </IconButton>
                 </View>
+
+                <View className="mt-3">
+                    <TouchableHighlight>
+                        <View className="flex-row items-center bg-zinc-800 border-zinc-900 px-3 py-3 rounded-lg">
+                            <MaterialCommunityIcons name="book-check" size={30} color="#4ade80" />
+                            <Text className="font-manropeSemiBold text-green-400 text-xl ml-2">Mark this book as read</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+
             </View>
         </BottomSheetScrollView>
     )

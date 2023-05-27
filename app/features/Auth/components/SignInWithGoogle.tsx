@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import { createUser } from "../utils";
+import firebase from "../../../lib/firebase";
 
 export const SignInWithGoogle = () => {
 
@@ -20,12 +20,7 @@ export const SignInWithGoogle = () => {
             // Create a Google credential with the token
             const googleCredential = auth.GoogleAuthProvider.credential(idToken);
             // Sign-in the user with the credential
-            const userCredentials = await auth().signInWithCredential(googleCredential);
-
-            if (userCredentials.additionalUserInfo?.isNewUser) {
-                console.log("New User")
-                await createUser(userCredentials);
-            }
+            await firebase.signIn(googleCredential);
             setLoading(false);
 
         } catch (error) {
