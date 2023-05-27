@@ -24,9 +24,9 @@ export const BookScreen = ({ route }: Props) => {
                     <BookInfo subtitleClassName="font-manropeExtraBold text-xl" showTitle={false} coverWidth={150} book={volumeInfo} />
                 </View>
 
-                <View className="mt-4 mx-5">
+                <ScrollView fadingEdgeLength={120} style={{elevation:10}} className="mt-4 mx-5 h-96 bg-purple-800 rounded-xl" contentContainerStyle={{paddingHorizontal:10, paddingVertical:10}}>
                     <Text className="text-white font-manropeSemiBold text-xl">{volumeInfo?.description}</Text>
-                </View>
+                </ScrollView>
 
             </ScrollView>
         </LinearGradient>
